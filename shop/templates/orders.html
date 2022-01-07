@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+{% load cart %}
+{% load custom_filter %}
+<div class="container">
+    <div class='border-rounded p-4 m-4'>
+        <p class='display-4 pl-4 ml-4'>Your Orders</p>
+        <hr>
+
+        <table class='table'>
+            <thead>
+                <tr>
+                    <th>Sr.no</th>
+                    <th>Image</th>
+                    <th>Product</th>
+                    <th>Date</th>
+                    <th>Price</th>
+                    <th>Qunatity</th>
+                    <th>Total</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+              {% for order in orders %}
+              <tr>
+                <td>{{forloop.counter}}</td>
+                <td><img class='rounded-circle' style="height: 80px;" src='{{order.product.image.url}}'></td>
+                <td>{{order.product.name}}</td>
+                <td>{{order.date}}</td>
+                <td>{{order.price|currency}}</td>
+                <td>{{order.quantity}}</td>
+                <td>{{order|multiply|currency}}</td>
+                {% if order.status %}
+                <td>Completed</td>
+                {%else%}
+                <td>Pending</td>
+                {% endif %}
+              </tr>
+              {% endfor %}
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th class='text-center' colspan='3'></th>
+                    <th colspan='1'>Total</th>
+                    <th>{{products|total_cart_price:request.session.cart|currency}}</th>
+                </tr>
+            </tfoot>
+        </table>
+        <hr>
+        <div class='m-3 p-3'>
+            <a href=""  data-bs-toggle="modal" data-bs-target="#exampleModal" class = "btn-btn-outline-info border rounded col-lg-3 float-right">Check Out</a>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+{% endblock %}
